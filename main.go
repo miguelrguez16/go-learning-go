@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
+	"go-learning-go/helper"
 	"strings"
 )
 
 const EMPTY string = " "
 const ZERO uint = 0
-const AT string = "@"
 
 const conferenceName string = "Go Conference"
-const conferenceTickets int = 50
 
 var remainingTickets uint = 50
 var bookings []string
@@ -23,7 +22,7 @@ func main() {
 	for {
 		//ask user their name
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTickets := validUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTickets := helper.ValidUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTickets {
 
@@ -71,13 +70,6 @@ func getUserInput() (string, string, string, uint) {
 	return firstName, lastName, email, userTickets
 }
 
-func validUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	var isValidName = len(firstName) >= 2 && len(lastName) >= 2
-	var isValidEmail = strings.Contains(email, AT)
-	var isValidTickets = userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTickets
-}
-
 func getFirstNames() (firstNames []string) {
 	for _, b := range bookings {
 		var names = strings.Fields(b)
@@ -88,7 +80,6 @@ func getFirstNames() (firstNames []string) {
 
 func greetUsers() {
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
-	fmt.Printf("We have totoal of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
 	fmt.Printf("Get your tickets here to attend\n")
 }
 

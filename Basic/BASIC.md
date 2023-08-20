@@ -32,6 +32,11 @@ func main(){
 
 ```go
 go run .\Basic.go
+
+go run .\main.go
+
+// RUN ALL OF A PACKAGE
+go run .
 ```
 
 ## DATA TYPES
