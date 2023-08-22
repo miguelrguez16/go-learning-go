@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-learning-go/helper"
+	"sync"
 	"time"
 )
 
@@ -24,6 +25,9 @@ type UserData struct {
 	numberOfTickets uint
 }
 
+// WaitGroup
+var wg = sync.WaitGroup{}
+
 func main() {
 	greetUsers()
 	//ask user their name
@@ -32,7 +36,9 @@ func main() {
 
 	if isValidName && isValidEmail && isValidTickets {
 		bookTicket(userTickets, firstName, lastName, email)
-		// CONCURRENCY
+
+		// right before launch a new thread
+		wg.Add(1)
 		go sendTicket(userTickets, firstName, lastName, email)
 
 		firstNames := getFirstNames()
@@ -53,7 +59,7 @@ func main() {
 			fmt.Println("NUmber of tickets you entered is invalid")
 		}
 	}
-
+	wg.Wait()
 }
 
 func getUserInput() (string, string, string, uint) {
@@ -107,13 +113,13 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 // and send to the mail
 // blocking function
 // Make concurrent
-func sendTicket(userTickets uint, firstName string, lastName string, email string) bool {
+func sendTicket(userTickets uint, firstName string, lastName string, email string) {
 	time.Sleep(3 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
 	fmt.Println("################################")
 	fmt.Printf("Sending ticket:\n[%v].\nTo email address: [%v]\n", ticket, email)
 	fmt.Println("################################")
-	return len(ticket) > 0
+	wg.Done()
 }
 
 /**

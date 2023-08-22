@@ -9,6 +9,8 @@
   - [Logic](#logic)
   - [Other](#other)
   - [Structs](#structs)
+  - [Concurrency](#concurrency)
+  - [Theads](#theads)
 
 ## CHARACTERISTICS OF GO
 
@@ -98,3 +100,51 @@ type UserData struct {
  numberOfTickets uint
 }
 ```
+
+## Concurrency
+
+```go
+async function 
+go nameFunction
+
+
+var wg = sync.WaitGroup{}
+
+
+
+
+```
+
+Package "sync" provides basic synchronization functionality
+
+**Add**:  Sets the number of goroutines to wait for (increases the counter by the provided number)
+**Wait**: Blocks until the WaitGroup counter is 0
+**Done**: Decrements the WaitGroup counter by 1. So this is called by the goroutine to indicate that it's finished
+
+```go
+Wait Group // <-- Waits for the launched goroutine
+var wg = sync.WaitGroup{}
+
+   ...
+   ...
+   wg.Add(1)
+   ...
+   wg.Done()   // decrement the counter
+               // Remove the thread from the waiting list
+
+
+   ...
+   wg.Wait()
+```
+
+## Theads
+
+GO is using --> GREEN THREAD
+
+- An abstraction of an actual thread
+- Managed by the goroutine, we're only interacting with these high level goroutine
+- Cheaper AND lightweight
+- You can run hundreds of thousands or millions goroutines without affecting the performance
+--> GOROUTINE
+
+Communication --> Channels
