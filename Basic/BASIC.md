@@ -1,10 +1,19 @@
 # BASIC GO
 
+- [BASIC GO](#basic-go)
+  - [CHARACTERISTICS OF GO](#characteristics-of-go)
+  - [Start](#start)
+  - [Run Basic Go](#run-basic-go)
+  - [DATA TYPES](#data-types)
+  - [Maps](#maps)
+  - [Logic](#logic)
+  - [Other](#other)
+
 ## CHARACTERISTICS OF GO
 
 - Simple syntax
 - fast build
-- start up 
+- start up
 - fewer resources
 - compiled
 
@@ -40,6 +49,7 @@ go run .
 ```
 
 ## DATA TYPES
+
 - Strings
 - int / uint
 |  GO   | Java  |
@@ -52,12 +62,27 @@ go run .
 - Maps
 - Arrays <> Slice
 
+## Maps
+
+```go
+// create a map
+var myMap map[Key]Value
+var myMap map[string]string
+
+// create and empty map
+// func make --> builtin function
+var userData = make(map[string]string) 
+```
+
 ## Logic
+
 ```go
 for {}
 
 ```
-##
+
+## Other
+
 ```go
 _ //-> to ignore a variable you do not want to use
 ```

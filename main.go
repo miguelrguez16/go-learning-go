@@ -3,20 +3,18 @@ package main
 import (
 	"fmt"
 	"go-learning-go/helper"
-	"strings"
+	"strconv"
 )
 
-const EMPTY string = " "
 const ZERO uint = 0
-
 const conferenceName string = "Go Conference"
 
 var remainingTickets uint = 50
-var bookings []string
 
-/*
-* WELCOME TO GO CONFERENCE
- */
+// var bookings []string <-- Slice of strings
+// init the map
+var bookings = make([]map[string]string, 10) // -> Array of maps
+
 func main() {
 	greetUsers()
 	for {
@@ -26,7 +24,7 @@ func main() {
 
 		if isValidName && isValidEmail && isValidTickets {
 
-			updateBookings(userTickets, firstName, lastName, email)
+			bookTicket(userTickets, firstName, lastName, email)
 
 			firstNames := getFirstNames()
 			fmt.Printf("These are all our bookings: %v\n", firstNames)
@@ -34,10 +32,8 @@ func main() {
 			// end program
 			if remainingTickets == ZERO {
 				fmt.Println("Our conference is booked out. Come back next year ")
-				break
-				// end program
+				break // end program
 			}
-			//  } else if condition {
 		} else {
 			if !isValidName {
 				fmt.Println("First name or last name you entered is too short")
@@ -71,9 +67,8 @@ func getUserInput() (string, string, string, uint) {
 }
 
 func getFirstNames() (firstNames []string) {
-	for _, b := range bookings {
-		var names = strings.Fields(b)
-		firstNames = append(firstNames, names[ZERO])
+	for _, booking := range bookings {
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
 }
@@ -83,10 +78,16 @@ func greetUsers() {
 	fmt.Printf("Get your tickets here to attend\n")
 }
 
-func updateBookings(userTickets uint, firstName string, lastName string, email string) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	// update remaining tickets
 	remainingTickets -= userTickets
-	bookings = append(bookings, firstName+EMPTY+lastName)
+
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	bookings = append(bookings, userData)
 	fmt.Printf("Name %v %v and want %v via email: %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remainning ", remainingTickets)
 }
