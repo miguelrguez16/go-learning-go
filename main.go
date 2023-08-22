@@ -26,36 +26,34 @@ type UserData struct {
 
 func main() {
 	greetUsers()
-	for {
-		//ask user their name
-		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTickets := helper.ValidUserInput(firstName, lastName, email, userTickets, remainingTickets)
+	//ask user their name
+	firstName, lastName, email, userTickets := getUserInput()
+	isValidName, isValidEmail, isValidTickets := helper.ValidUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-		if isValidName && isValidEmail && isValidTickets {
-			bookTicket(userTickets, firstName, lastName, email)
-			// CONCURRENCY
-			go sendTicket(userTickets, firstName, lastName, email)
+	if isValidName && isValidEmail && isValidTickets {
+		bookTicket(userTickets, firstName, lastName, email)
+		// CONCURRENCY
+		go sendTicket(userTickets, firstName, lastName, email)
 
-			firstNames := getFirstNames()
-			fmt.Printf("These are all our bookings: %v\n", firstNames)
+		firstNames := getFirstNames()
+		fmt.Printf("These are all our bookings: %v\n", firstNames)
 
-			// end program
-			if remainingTickets == ZERO {
-				fmt.Println("Our conference is booked out. Come back next year ")
-				break // end program
-			}
-		} else {
-			if !isValidName {
-				fmt.Println("First name or last name you entered is too short")
-			}
-			if !isValidEmail {
-				fmt.Println("Email address you entered does not contains '@' ")
-			}
-			if !isValidTickets {
-				fmt.Println("NUmber of tickets you entered is invalid")
-			}
+		// end program
+		if remainingTickets == ZERO {
+			fmt.Println("Our conference is booked out. Come back next year ")
+		}
+	} else {
+		if !isValidName {
+			fmt.Println("First name or last name you entered is too short")
+		}
+		if !isValidEmail {
+			fmt.Println("Email address you entered does not contains '@' ")
+		}
+		if !isValidTickets {
+			fmt.Println("NUmber of tickets you entered is invalid")
 		}
 	}
+
 }
 
 func getUserInput() (string, string, string, uint) {
