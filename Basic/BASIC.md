@@ -8,6 +8,7 @@
   - [Maps](#maps)
   - [Logic](#logic)
   - [Other](#other)
+  - [Structs](#structs)
 
 ## CHARACTERISTICS OF GO
 
@@ -85,4 +86,15 @@ for {}
 
 ```go
 _ //-> to ignore a variable you do not want to use
+```
+
+## Structs
+
+```go
+type UserData struct {
+ firstName       string
+ lastName        string
+ email           string
+ numberOfTickets uint
+}
 ```
