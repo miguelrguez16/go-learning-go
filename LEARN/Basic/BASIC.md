@@ -10,7 +10,8 @@
   - [Other](#other)
   - [Structs](#structs)
   - [Concurrency](#concurrency)
-  - [Theads](#theads)
+  - [Threads](#theads)
+  - [HELPER](#helper)
 
 ## CHARACTERISTICS OF GO
 
@@ -137,7 +138,7 @@ var wg = sync.WaitGroup{}
    wg.Wait()
 ```
 
-## Theads
+## Threads
 
 GO is using --> GREEN THREAD
 
@@ -148,3 +149,7 @@ GO is using --> GREEN THREAD
 --> GOROUTINE
 
 Communication --> Channels
+
+## HELPER
+
+`$go mod tidy`
