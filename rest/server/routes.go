@@ -5,9 +5,12 @@ import (
 	"net/http"
 )
 
+const indexRoute string = "/"
+const countriesRoutes string = "/countries"
+
 func initRoutes() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/countries", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(indexRoute, index)
+	http.HandleFunc(countriesRoutes, func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			getCountries(w, r)

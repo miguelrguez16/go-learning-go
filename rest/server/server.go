@@ -5,8 +5,8 @@ import (
 )
 
 type Country struct {
-	name     string
-	language string
+	Name     string
+	Language string
 }
 
 var countries []*Country
