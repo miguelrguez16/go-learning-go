@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"helper"
+	"learn/helper"
 	"sync"
 	"time"
 )
@@ -66,16 +66,20 @@ func getUserInput() (string, string, string, uint) {
 	var firstName, lastName, email string
 	var userTickets uint
 	fmt.Println("Enter your first name: ")
-	fmt.Scan(&firstName)
+	_, err := fmt.Scan(&firstName)
+	handlerError(err)
 
 	fmt.Println("Enter your last name: ")
-	fmt.Scan(&lastName)
+	_, err = fmt.Scan(&lastName)
+	handlerError(err)
 
 	fmt.Println("Enter your email: ")
-	fmt.Scan(&email)
+	_, err = fmt.Scan(&email)
+	handlerError(err)
 
 	fmt.Println("Enter number of tickets:")
-	fmt.Scan(&userTickets)
+	_, err = fmt.Scan(&userTickets)
+	handlerError(err)
 
 	return firstName, lastName, email, userTickets
 }
@@ -120,6 +124,11 @@ func sendTicket(userTickets uint, firstName string, lastName string, email strin
 	fmt.Printf("Sending ticket:\n[%v].\nTo email address: [%v]\n", ticket, email)
 	fmt.Println("################################")
 	wg.Done()
+}
+func handlerError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 /**
