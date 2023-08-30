@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -22,5 +23,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getCountries(w http.ResponseWriter, r *http.Request) {}
+func getCountries(w http.ResponseWriter, r *http.Request) {
+	// w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(countries)
+	if err != nil {
+		panic(err)
+	}
+}
 func addCountries(w http.ResponseWriter, r *http.Request) {}

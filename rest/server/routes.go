@@ -11,7 +11,6 @@ func initRoutes() {
 		switch r.Method {
 		case http.MethodGet:
 			getCountries(w, r)
-
 		case http.MethodPost:
 			addCountries(w, r)
 		default:
