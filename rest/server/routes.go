@@ -6,14 +6,14 @@ import (
 )
 
 const indexRoute string = "/"
-const countriesRoutes string = "/countries"
+const countriesRoute string = "/countries"
 
 func initRoutes() {
 	http.HandleFunc(indexRoute, index)
-	http.HandleFunc(countriesRoutes, func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(countriesRoute, func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
-			getCountries(w, r)
+			getCountries(w)
 		case http.MethodPost:
 			addCountries(w, r)
 		default:

@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -24,7 +23,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getCountries(w http.ResponseWriter, r *http.Request) {
+func getCountries(w http.ResponseWriter) {
 	// w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(countries)
@@ -37,12 +36,16 @@ func addCountries(w http.ResponseWriter, r *http.Request) {
 	country := &Country{} // tiene q
 	err := json.NewDecoder(r.Body).Decode(country)
 	if err != nil {
-		log.Panic(err)
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "%v", err)
-		return
+		_, err := fmt.Fprintf(w, "%v", err)
+		if err != nil {
+			panic(err)
+		}
 	}
 	countries = append(countries, country)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Added country %s %s", country.Name, country.Language)
+	_, err = fmt.Fprintf(w, "Added country %s %s", country.Name, country.Language)
+	if err != nil {
+		panic(err)
+	}
 }
