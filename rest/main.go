@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"os/signal"
@@ -10,11 +12,15 @@ import (
 )
 
 const addressServer string = ":8080"
+const env_port string = "API_PORT"
 
 func main() {
 
 	ctx := context.Background()
-
+	//envVarsExtract()
+	// db url complete
+	url, port, name := getDB()
+	fmt.Printf("URL [%v] PORT [%v] NAME [%v]\n", url, port, name)
 	serverDoneChannel := make(chan os.Signal, 1)
 	signal.Notify(serverDoneChannel, os.Interrupt, syscall.SIGTERM)
 
@@ -37,4 +43,35 @@ func main() {
 	}
 	log.Println("Server end")
 
+}
+
+func getDB() (string, string, string) {
+	// load file env
+	err := godotenv.Load(".env")
+	if err != nil {
+		return "", "", ""
+	}
+	url, ok := os.LookupEnv("DB_URL")
+	if !ok {
+		log.Println("DB_URL not found")
+	}
+
+	port, ok := os.LookupEnv("DB_PORT")
+	if !ok {
+		log.Println("DB_PORT not found")
+	}
+	name, ok := os.LookupEnv("DB_NAME")
+	if !ok {
+		log.Println("DB_NAME not found")
+	}
+
+	return url, port, name
+}
+
+func envVarsExtract() {
+	port, ok := os.LookupEnv(env_port)
+	if !ok {
+		log.Panicln(ok)
+	}
+	fmt.Println(port)
 }
