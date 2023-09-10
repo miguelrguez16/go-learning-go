@@ -21,14 +21,13 @@ func main() {
 	}
 
 	wg.Wait()
-	tEnd := time.Now()
-	tTotal := (tEnd.UnixMilli() - tStart.UnixMilli())
-	log.Printf("Total time %v ms", tTotal)
+
+	log.Printf("Total time %v ms", time.Since(tStart).Milliseconds())
 	log.Println("Application End")
 }
 
 func show(id int, wg *sync.WaitGroup) {
-	delay := rand.Intn(300)
+	delay := rand.Intn(500)
 	fmt.Printf("GOROUTINE #%d with %dms\n", id, delay)
 	time.Sleep(time.Millisecond * time.Duration(delay))
 	wg.Done()
