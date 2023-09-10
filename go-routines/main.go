@@ -16,7 +16,7 @@ func main() {
 	tStart := time.Now()
 
 	var wg = &sync.WaitGroup{}
-	var mutex = &sync.Mutex{}
+	var mutex = &sync.RWMutex{}
 
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
@@ -30,7 +30,7 @@ func main() {
 	log.Println("Application End")
 }
 
-func readBook(id int, wg *sync.WaitGroup, mutex *sync.Mutex) {
+func readBook(id int, wg *sync.WaitGroup, mutex *sync.RWMutex) {
 	data.FinishBook(id, mutex)
 	delay := rand.Intn(500)
 	fmt.Printf("GOROUTINE read book #%d with %dms\n", id, delay)

@@ -25,8 +25,8 @@ var books = []*Book{
 	{9, "Mist born V", false},
 }
 
-func findBook(id int, mutex *sync.Mutex) (int, *Book) {
-	mutex.Lock()
+func findBook(id int, mutex *sync.RWMutex) (int, *Book) {
+	mutex.RLock()
 	var found = false
 	var index = -1
 	var book *Book
@@ -38,11 +38,11 @@ func findBook(id int, mutex *sync.Mutex) (int, *Book) {
 			index = i
 		}
 	}
-	mutex.Unlock()
+	mutex.RUnlock()
 	return index, book
 }
 
-func FinishBook(id int, mutex *sync.Mutex) bool {
+func FinishBook(id int, mutex *sync.RWMutex) bool {
 	i, book := findBook(id, mutex)
 	if i < 0 {
 		return false
