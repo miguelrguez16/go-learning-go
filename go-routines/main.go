@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go-routines/data"
 	"log"
 	"math/rand"
 	"sync"
@@ -13,23 +14,26 @@ import (
 func main() {
 	log.Println("Application start")
 	tStart := time.Now()
+
 	var wg = &sync.WaitGroup{}
+	var mutex = &sync.RWMutex{}
 
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go show(i, wg)
+		go readBook(i, wg, mutex)
 	}
 
 	wg.Wait()
-	tEnd := time.Now()
-	tTotal := (tEnd.UnixMilli() - tStart.UnixMilli())
-	log.Printf("Total time %v ms", tTotal)
+	data.ToString()
+	log.Printf("Total time %v ms", time.Since(tStart).Milliseconds())
+
 	log.Println("Application End")
 }
 
-func show(id int, wg *sync.WaitGroup) {
-	delay := rand.Intn(300)
-	fmt.Printf("GOROUTINE #%d with %dms\n", id, delay)
+func readBook(id int, wg *sync.WaitGroup, mutex *sync.RWMutex) {
+	data.FinishBook(id, mutex)
+	delay := rand.Intn(500)
+	fmt.Printf("GOROUTINE read book #%d with %dms\n", id, delay)
 	time.Sleep(time.Millisecond * time.Duration(delay))
 	wg.Done()
 }
