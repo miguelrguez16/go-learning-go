@@ -1,6 +1,7 @@
 package configuration
 
 import (
+	"fmt"
 	"github.com/go-yaml/yaml"
 	"os"
 )
@@ -18,7 +19,7 @@ type Configuration struct {
 }
 
 func Load(filename string) (*Configuration, error) {
-
+	// declare struct
 	conf := &Configuration{}
 
 	// load yaml file
@@ -26,10 +27,19 @@ func Load(filename string) (*Configuration, error) {
 	if err != nil {
 		return nil, err
 	}
-	// transfor from byte array to configuration
+	// transform from byte array to configuration struct
 	err = yaml.Unmarshal(data, conf)
 	if err != nil {
 		return nil, err
 	}
 	return conf, err
+}
+
+func PrintConfiguration(configuration *Configuration) {
+	fmt.Printf("host [%v]. port [%v]. user [%v]. password [%v]. name [%v].\n",
+		configuration.DB.Host,
+		configuration.DB.Port,
+		configuration.DB.User,
+		configuration.DB.Password,
+		configuration.DB.Name)
 }

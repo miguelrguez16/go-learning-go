@@ -7,20 +7,28 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"rest/configuration"
 	"rest/server"
 	"syscall"
 )
 
 const addressServer string = ":8080"
-const env_port string = "API_PORT"
+
+//const envPort string = "API_PORT"
 
 func main() {
 
 	ctx := context.Background()
-	//envVarsExtract()
 	// db url complete
 	url, port, name := getDB()
 	fmt.Printf("URL [%v] PORT [%v] NAME [%v]\n", url, port, name)
+
+	// load data from yaml
+	load, err := configuration.Load("config.yml")
+	if err != nil {
+		return
+	}
+	configuration.PrintConfiguration(load)
 	serverDoneChannel := make(chan os.Signal, 1)
 	signal.Notify(serverDoneChannel, os.Interrupt, syscall.SIGTERM)
 
@@ -37,7 +45,7 @@ func main() {
 
 	<-serverDoneChannel
 
-	err := srv.Shutdown(ctx)
+	err = srv.Shutdown(ctx)
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -68,10 +76,11 @@ func getDB() (string, string, string) {
 	return url, port, name
 }
 
-func envVarsExtract() {
-	port, ok := os.LookupEnv(env_port)
+// envVarsExtract()
+/* func envVarsExtract() {
+	port, ok := os.LookupEnv(envPort)
 	if !ok {
 		log.Panicln(ok)
 	}
 	fmt.Println(port)
-}
+}*/
