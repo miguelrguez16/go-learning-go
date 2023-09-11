@@ -1,2 +1,2 @@
-@echo off
+@echo on
 unset CGO_ENABLED
