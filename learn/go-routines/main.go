@@ -24,7 +24,8 @@ func main() {
 	}
 
 	wg.Wait()
-	data.ToString()
+
+	log.Println(data.ToString())
 	log.Printf("Total time %v ms", time.Since(tStart).Milliseconds())
 
 	log.Println("Application End")
